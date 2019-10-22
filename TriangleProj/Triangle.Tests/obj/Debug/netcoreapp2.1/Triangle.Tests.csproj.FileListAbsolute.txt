@@ -1,0 +1,4 @@
+F:\Универ\3 курс 1 сем\epam\epam-labs\TriangleProj\Triangle.Tests\obj\Debug\netcoreapp2.1\Triangle.Tests.csprojAssemblyReference.cache
+F:\Универ\3 курс 1 сем\epam\epam-labs\TriangleProj\Triangle.Tests\obj\Debug\netcoreapp2.1\Triangle.Tests.csproj.CoreCompileInputs.cache
+F:\Универ\3 курс 1 сем\epam\epam-labs\TriangleProj\Triangle.Tests\obj\Debug\netcoreapp2.1\Triangle.Tests.AssemblyInfoInputs.cache
+F:\Универ\3 курс 1 сем\epam\epam-labs\TriangleProj\Triangle.Tests\obj\Debug\netcoreapp2.1\Triangle.Tests.AssemblyInfo.cs
