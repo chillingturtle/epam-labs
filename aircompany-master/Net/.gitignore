@@ -9,3 +9,6 @@
 *.suo
 /Aircompany.v12.suo
 /AircompanyTests.v12.suo
+packages
+/
+.vs/
