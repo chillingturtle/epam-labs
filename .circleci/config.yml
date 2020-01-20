@@ -14,12 +14,9 @@ jobs:
           keys:
             - dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
       - run:
-          name: "Test directory"
-          command: Invoke-Expression "Get-ChildItem Env: | out-host -paging"
-      - run:
           name: "Install project dependencies"
           command: >
-              cd $Env.PROJECT_PATH;
+              cd ./Framework2/UnitTestProject/;
               dotnet.exe restore
       - save_cache:
           paths:
@@ -28,7 +25,7 @@ jobs:
       - run:
           name: "Run Build step"
           command: >
-              cd $Env.PROJECT_PATH;
+              cd ./Framework2/UnitTestProject/;
               dotnet.exe publish -c Release -r win10-x64
       - run:
           name: "Test the executable"
