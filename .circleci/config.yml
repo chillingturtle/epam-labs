@@ -10,16 +10,12 @@ jobs:
       shell: powershell.exe
     steps:
       - checkout
-      - working_directory: ./Framework2/
       - restore_cache:
           keys:
             - dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
       - run:
-          name: "Test project path"
-          command: pwd
-      - run:
-          name: "Test project folder"
-          command: ls
+          name: "Change directory"
+          command: cd ./Framework2/
       - run:
           name: "Install project dependencies"
           command: dotnet.exe restore
