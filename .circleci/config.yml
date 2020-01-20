@@ -16,7 +16,7 @@ jobs:
       - run:
           name: "Install project dependencies"
           command: >
-              cd ./Framework2/UnitTestProject/;
+              cd ./Framework2/;
               dotnet.exe restore
       - save_cache:
           paths:
@@ -25,7 +25,7 @@ jobs:
       - run:
           name: "Run Build step"
           command: >
-              cd ./Framework2/UnitTestProject/;
+              cd ./Framework2/;
               dotnet.exe publish -c Release -r win10-x64
       - run:
           name: "Test the executable"
