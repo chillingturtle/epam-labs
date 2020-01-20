@@ -8,9 +8,9 @@ jobs:
     executor:
       name: win/vs2019
       shell: powershell.exe
-    working_directory: ./Framework2/
     steps:
       - checkout
+      - working_directory: ./Framework2/
       - restore_cache:
           keys:
             - dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
