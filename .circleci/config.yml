@@ -15,10 +15,10 @@ jobs:
             - dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
       - run:
           name: "Change directory"
-          command: cd ./Framework2/UnitTestProject
+          command: cd ./Framework2/UnitTestProject/
       - run:
-        name: "Test directory"
-        command: ls
+          name: "Test directory"
+          command: ls
       - run:
           name: "Install project dependencies"
           command: dotnet.exe restore
