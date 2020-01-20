@@ -18,6 +18,9 @@ jobs:
           name: "Test project path"
           command: pwd
       - run:
+          name: "Test project folder"
+          command: ls
+      - run:
           name: "Install project dependencies"
           command: dotnet.exe restore
       - save_cache:
