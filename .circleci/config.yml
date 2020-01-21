@@ -12,7 +12,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Revision }}
+            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
             - nuget-packages-v1-{{ arch }}-{{ .Branch }}
             - nuget-packages-v1
       - run:
@@ -26,8 +26,8 @@ jobs:
               nuget restore;
       - save_cache:
           paths:
-            - C:\Users\circleci\project\Framework2\UnitTestProject\.nuget\packages
-          key: nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Revision }}
+            - C:\Users\circleci\project\.cache
+          key: nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
 
   build:
     executor:
@@ -36,7 +36,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Revision }}
+            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
             - nuget-packages-v1-{{ arch }}-{{ .Branch }}
             - nuget-packages-v1
       - run:
@@ -56,19 +56,17 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Revision }}
-            - nuget-packages-v1-{{ arch }}-{{ .Branch }}
-            - nuget-packages-v1
-      - restore_cache:
-          keys:
             - build-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
             - build-v1-{{ arch }}-{{ .Branch }}
             - build-v1
       - run:
           name: "Tests"
           command: cd ./Framework2/; ./Test.bat
-      - store_artifacts:
-          path: ./Framework2/Test.bat
+      # - store_artifacts:
+      #     path: ./Framework2/Test.bat
+      # - store_test_results:
+      #     path: ./Framework2/TestResults/
+
 
 workflows:
   version: 2
