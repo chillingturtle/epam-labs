@@ -4,7 +4,7 @@ orbs:
   win: circleci/windows@1.0.0
 
 jobs:
-  prepare:
+  build and test:
     executor:
       name: win/vs2019
       shell: powershell.exe
@@ -24,56 +24,18 @@ jobs:
               cd ./Framework2/;
               dotnet.exe restore;
               nuget restore;
-      - save_cache:
-          paths:
-            - C:\Users\circleci\project\.cache
-          key: nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - ./*
-
-  build:
-    executor:
-      name: win/vs2019
-      shell: powershell.exe
-    steps:
-      - attach_workspace:
-          at: ./
-      - restore_cache:
-          keys:
-            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
-            - nuget-packages-v1-{{ arch }}-{{ .Branch }}
-            - nuget-packages-v1
       - run:
           name: "Run Build step"
           command: >
               cd ./Framework2/;
               dotnet.exe publish -c Release -r win10-x64
-      - save_cache:
-          paths:
-            - C:\Users\circleci\project\.cache
-          key: build-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - ./*
-
-  test:
-    executor:
-      name: win/vs2019
-      shell: powershell.exe
-    steps:
-      - attach_workspace:
-          at: ./
-      - restore_cache:
-          keys:
-            - build-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
-            - build-v1-{{ arch }}-{{ .Branch }}
-            - build-v1
       - run:
           name: "Tests"
           command: cd ./Framework2/; ./Test.bat
+      - save_cache:
+          paths:
+            - C:\Users\circleci\project\.cache
+          key: nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       # - store_artifacts:
       #     path: ./Framework2/Test.bat
       # - store_test_results:
@@ -84,13 +46,7 @@ workflows:
   version: 2
   commit:
     jobs:
-      - prepare
-      - build:
-          requires: 
-            - prepare
-      - test:
-          requires: 
-          - build
+      - build and test
   nightly:
     triggers:
       - schedule:
@@ -100,10 +56,4 @@ workflows:
               only:
                 - master
     jobs:
-      - prepare
-      - build:
-          requires: 
-            - prepare
-      - test:
-          requires: 
-            - build
+      - build and test
