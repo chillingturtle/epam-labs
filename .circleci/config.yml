@@ -15,7 +15,7 @@ jobs:
             - dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
       - run:
           name: "Install Chrome"
-          command: choco install googlechrome --version 78.0.3904.97
+          command: choco install googlechrome
       - run:
           name: "Install project dependencies"
           command: >
