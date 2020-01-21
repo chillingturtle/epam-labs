@@ -13,15 +13,12 @@ jobs:
       - restore_cache:
           keys:
             - dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
-
-      - run:
-          name: "Install NuGet"
-          command: nuget
       - run:
           name: "Install project dependencies"
           command: >
               cd ./Framework2/;
-              dotnet.exe restore
+              dotnet.exe restore;
+              nuget restore;
       - save_cache:
           paths:
             - C:\Users\circleci\project\Framework2\UnitTestProject\.nuget\packages
