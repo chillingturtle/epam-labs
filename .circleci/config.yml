@@ -65,10 +65,10 @@ workflows:
   commit:
     jobs:
       - prepare
-      - build
+      - build:
         requires: 
           - prepare
-      - test
+      - test:
         requires: 
           - build
   nightly:
@@ -81,9 +81,9 @@ workflows:
                 - master
     jobs:
       - prepare
-      - build
+      - build:
         requires: 
           - prepare
-      - test
+      - test:
         requires: 
           - build
