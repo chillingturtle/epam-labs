@@ -10,15 +10,19 @@ namespace UnitTestProject.Page_Models
 
         public By checkBox = By.Id("i2");
         public By submitButton = By.Id("detailsConfirmationButton");
+        public By checkBoxError = By.XPath("//*[@id='termsAndConditionsFormGroup']/div[1]/div/small");
 
         public TripPage(IWebDriver driver) : base(driver)
         { }
 
         public bool CheckForError()
         {
-            return Driver
+            var formError = Driver
                 .FindElement(By.Id("contactEmailFormGroup"))
                 .FindElement(By.ClassName("form-text invalidMessage ng-star-inserted")).Displayed;
+            var checkBoxErrorM = WaitUntilElementExists(checkBoxError).Displayed;
+
+            return formError || checkBoxErrorM;
         }
 
         public IWebElement getCheckBox()

@@ -6,12 +6,8 @@ namespace UnitTestProject.Page_Models
     public class RegistrationPage : AbstractPage<RegistrationPage>
     {
         
-        [FindsBy(How = How.XPath, Using = "//*[@id='submit']")]
-        public IWebElement submitButton;
-
-        [FindsBy(How = How.XPath, Using = "//*[@id='email']")]
-        public IWebElement email;
-
+        public By submitButton = By.XPath("//*[@id='submit']");
+        public By email = By.XPath("//*[@id='email']");
         public By errorMessagePath = By.XPath("//*[@id='jsWwarningMessages']");
 
         public RegistrationPage(IWebDriver driver) : base(driver)
@@ -21,13 +17,12 @@ namespace UnitTestProject.Page_Models
 
         public void SkipRegistration()
         {
-            this.submitButton.Click();
+            WaitUntilElementExists(this.submitButton).Click();
         }
 
         public bool CheckForError()
         {
-            var errorMessageLocator = this.errorMessagePath;
-            return Driver.FindElements(errorMessageLocator)[1].Displayed;
+            return WaitUntilElementExists(this.errorMessagePath).Displayed;
         }
 
         public override RegistrationPage OpenPage()

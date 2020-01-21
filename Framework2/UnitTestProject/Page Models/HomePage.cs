@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
+using UnitTestProject.Utilities;
 
 namespace UnitTestProject.Page_Models
 {
@@ -13,11 +14,10 @@ namespace UnitTestProject.Page_Models
         [FindsBy(How = How.Id, Using = "tniToStop")]
         public IWebElement whereToInput;
 
-        [FindsBy(How = How.ClassName, Using = "btnpicker btnpickerenabled")]
+        [FindsBy(How = How.ClassName, Using = "btnpicker")]
         public IWebElement datePickerButton;
 
-        [FindsBy(How = How.ClassName, Using = "daycell currmonth tablesingleday")]
-        public IWebElement dayCell;
+        public By dayCell = By.ClassName("daycell currmonth tablesingleday");
 
         [FindsBy(How = How.XPath, Using = "//*[@id='tniPassengerCount']/div[1]/div/div[2]/button[2]")]
         public IWebElement passengersIncreaseButton;
@@ -28,17 +28,27 @@ namespace UnitTestProject.Page_Models
         [FindsBy(How = How.XPath, Using = "//*[@id='block-trainlinklogo']/div/p/a[2]")]
         public IWebElement registerLink;
 
+        [FindsBy(How = How.ClassName, Using = "daycell disabled")]
+        public IWebElement invalidCell;
+        
+
         public HomePage(IWebDriver driver) : base(driver)
         {
             PageFactory.InitElements(Driver, this);
         }
 
-        public void FillTicketsBookingForm(string from, string to)
+        public void FillTicketsBookingForm(string from, string to, bool correct = true, int passCount = 1, int daysNext = 1)
         {
             InsertValueInWhereFrom(from);
             InsertValueInWhereTo(to);
-            SelectTommorowDate();
-            passengersIncreaseButton.Click();
+            SelectTommorowDate(correct, daysNext);
+
+            while (passCount > 0)
+            {
+                passengersIncreaseButton.Click();
+                passCount--;
+            }
+
             submitFormButton.Click();
         }
 
@@ -54,16 +64,35 @@ namespace UnitTestProject.Page_Models
             WaitUntilElementExists(By.Id("autosuggest-item-0"), 3).Click();
         }
 
-        public void SelectTommorowDate()
+        public void SelectTommorowDate(bool valid, int daysNext = 1)
         {
             datePickerButton.Click();
-            dayCell.Click();
+
+            var cell = Driver.FindElements(dayCell)[daysNext];
+
+            if (valid)
+            {
+                cell.Click();
+            }
+            else
+            {
+                invalidCell.Click();
+            }
         }
 
         public bool CheckForError()
         {
             var errorMessageLocator = By.Id("error-message-box");
-            return Driver.FindElements(errorMessageLocator)[1].Displayed;
+            var fl = false;
+
+            Utils.applySleep(Driver, 3);
+
+            foreach (var el in Driver.FindElements(errorMessageLocator))
+            {
+                fl = fl || el.Displayed;
+            }
+
+            return fl;
         }
 
         public override HomePage OpenPage()
