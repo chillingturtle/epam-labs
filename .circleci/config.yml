@@ -4,7 +4,7 @@ orbs:
   win: circleci/windows@1.0.0
 
 jobs:
-  build:
+  prepare:
     executor:
       name: win/vs2019
       shell: powershell.exe
@@ -26,13 +26,40 @@ jobs:
           paths:
             - C:\Users\circleci\project\Framework2\UnitTestProject\.nuget\packages
           key: dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
+
+  build:
+    executor:
+      name: win/vs2019
+      shell: powershell.exe
+    steps:
       - run:
           name: "Run Build step"
           command: >
               cd ./Framework2/;
               dotnet.exe publish -c Release -r win10-x64
+
+  test:
+    executor:
+      name: win/vs2019
+      shell: powershell.exe
+    steps:
       - run:
           name: "Tests"
           command: cd ./Framework2/; ./Test.bat
       - store_artifacts:
-          path: .\bin\Release\netcoreapp2.1\win10-x64\publish\UnitTestProject.exe
+          path: ./Framework2/Test.bat
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
+      - test
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+    jobs:
+      - prepare
+      - build
+      - test
