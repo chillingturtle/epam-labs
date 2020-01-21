@@ -66,10 +66,10 @@ workflows:
     jobs:
       - prepare
       - build:
-        requires: 
-          - prepare
+          requires: 
+            - prepare
       - test:
-        requires: 
+          requires: 
           - build
   nightly:
     triggers:
@@ -82,8 +82,8 @@ workflows:
     jobs:
       - prepare
       - build:
-        requires: 
-          - prepare
+          requires: 
+            - prepare
       - test:
-        requires: 
-          - build
+          requires: 
+            - build
