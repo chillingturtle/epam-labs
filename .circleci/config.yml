@@ -5,9 +5,6 @@ orbs:
 
 jobs:
   build:
-    docker:
-      - image: selenium/standalone-chrome:3.11.0
-
     executor:
       name: win/vs2019
       shell: powershell.exe
@@ -17,6 +14,9 @@ jobs:
       - restore_cache:
           keys:
             - dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
+      - run:
+          name: "Install Chrome"
+          command: docker run -d -p 4444:4444 --shm-size=2g selenium/standalone-chrome:3.141.59-zinc
       - run:
           name: "Install project dependencies"
           command: >
