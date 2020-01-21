@@ -13,6 +13,14 @@ jobs:
       - restore_cache:
           keys:
             - dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
+
+      - run:
+          name: "Install NuGet"
+          command: >
+              $sourceNugetExe = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe";
+              $targetNugetExe = "$pwd\nuget.exe";
+              Invoke-WebRequest $sourceNugetExe -OutFile $targetNugetExe;
+              Set-Alias nuget $targetNugetExe -Scope Global -Verbose;
       - run:
           name: "Install project dependencies"
           command: >
