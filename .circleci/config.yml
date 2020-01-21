@@ -29,9 +29,9 @@ jobs:
             - C:\Users\circleci\project\.cache
           key: nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
       - persist_to_workspace:
-          root: /
+          root: ./
           paths:
-            - /*
+            - ./*
 
   build:
     executor:
@@ -39,7 +39,7 @@ jobs:
       shell: powershell.exe
     steps:
       - attach_workspace:
-          at: /
+          at: ./
       - restore_cache:
           keys:
             - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
