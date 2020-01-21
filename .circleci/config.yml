@@ -12,7 +12,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
+            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ checksum "packages.config" }}
+            - nuget-packages-v1-{{ arch }}-{{ .Branch }}
+            - nuget-packages-v1
       - run:
           name: "Install Chrome"
           command: choco install googlechrome --version 79.0.3945.130
@@ -25,7 +27,7 @@ jobs:
       - save_cache:
           paths:
             - C:\Users\circleci\project\Framework2\UnitTestProject\.nuget\packages
-          key: dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
+          key: nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ checksum "packages.config" }}
 
   build:
     executor:
@@ -37,12 +39,21 @@ jobs:
           command: >
               cd ./Framework2/;
               dotnet.exe publish -c Release -r win10-x64
+      - save_cache:
+          paths:
+            - C:\Users\circleci\project\Framework2\UnitTestProject\.dist\cached
+          key: build-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
 
   test:
     executor:
       name: win/vs2019
       shell: powershell.exe
     steps:
+      - restore_cache:
+          keys:
+            - build-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+            - build-v1-{{ arch }}-{{ .Branch }}
+            - build-v1
       - run:
           name: "Tests"
           command: cd ./Framework2/; ./Test.bat
@@ -53,6 +64,7 @@ workflows:
   version: 2
   commit:
     jobs:
+      # - prepare
       - build
       - test
   nightly:
