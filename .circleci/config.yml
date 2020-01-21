@@ -12,7 +12,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ checksum "packages.config" }}
+            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Revision }}
             - nuget-packages-v1-{{ arch }}-{{ .Branch }}
             - nuget-packages-v1
       - run:
@@ -27,7 +27,7 @@ jobs:
       - save_cache:
           paths:
             - C:\Users\circleci\project\Framework2\UnitTestProject\.nuget\packages
-          key: nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ checksum "packages.config" }}
+          key: nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Revision }}
 
   build:
     executor:
