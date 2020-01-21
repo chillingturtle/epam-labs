@@ -46,7 +46,7 @@ jobs:
               dotnet.exe publish -c Release -r win10-x64
       - save_cache:
           paths:
-            - C:\Users\circleci\project\Framework2\UnitTestProject\.dist\cached
+            - C:\Users\circleci\project\.cache
           key: build-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
 
   test:
