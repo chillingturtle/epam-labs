@@ -28,12 +28,18 @@ jobs:
           paths:
             - C:\Users\circleci\project\.cache
           key: nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
+      - persist_to_workspace:
+          root: /
+          paths:
+            - /*
 
   build:
     executor:
       name: win/vs2019
       shell: powershell.exe
     steps:
+      - attach_workspace:
+          at: /
       - restore_cache:
           keys:
             - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
