@@ -34,6 +34,11 @@ jobs:
       name: win/vs2019
       shell: powershell.exe
     steps:
+      - restore_cache:
+          keys:
+            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Revision }}
+            - nuget-packages-v1-{{ arch }}-{{ .Branch }}
+            - nuget-packages-v1
       - run:
           name: "Run Build step"
           command: >
@@ -49,6 +54,11 @@ jobs:
       name: win/vs2019
       shell: powershell.exe
     steps:
+      - restore_cache:
+          keys:
+            - nuget-packages-v1-{{ arch }}-{{ .Branch }}-{{ .Revision }}
+            - nuget-packages-v1-{{ arch }}-{{ .Branch }}
+            - nuget-packages-v1
       - restore_cache:
           keys:
             - build-v1-{{ arch }}-{{ .Branch }}-{{ .Environment.CIRCLE_SHA1 }}
