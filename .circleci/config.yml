@@ -64,7 +64,7 @@ workflows:
   version: 2
   commit:
     jobs:
-      # - prepare
+      - prepare
       - build
       - test
   nightly:
@@ -76,6 +76,6 @@ workflows:
               only:
                 - master
     jobs:
-      - prepare
+      # - prepare
       - build
       - test
