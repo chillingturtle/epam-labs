@@ -10,7 +10,6 @@ jobs:
       shell: powershell.exe
     steps:
       - checkout
-      - setup_remote_docker
       - restore_cache:
           keys:
             - dotnet-packages-v1-{{ checksum "UnitTestProject.csproj" }}
