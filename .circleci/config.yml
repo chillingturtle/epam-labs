@@ -5,11 +5,12 @@ orbs:
 
 jobs:
   build:
+    docker:
+      - image: selenium/standalone-chrome:3.11.0
+
     executor:
       name: win/vs2019
       shell: powershell.exe
-    docker:
-      - image: selenium/standalone-chrome:3.11.0
     steps:
       - checkout
       - setup_remote_docker
