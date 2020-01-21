@@ -49,6 +49,41 @@ namespace UnitTestProject.Tests
         }
 
         /**
+            Тест 2: Проверка регистрации пользователя с пустыми полями
+
+            Шаги: 
+	            1. навести курсор на кнопку Sign up
+	            2. оставить все поля пустыми
+	            3. нажать на кнопку "Submit";
+
+            Ожидаемый результат: новый пользователь не должен быть создан, 
+            выделяются поля, обязательные для заполнения и рядом выводятся красные сообщения "Please enter/fill ...".
+        */
+
+        [Test]
+        public void CheckEmptyRegistrationForm()
+        {
+            TakeScreenshotOnTestFailure(() =>
+            {
+                var homePage = new HomePage(Driver).OpenPage();
+
+                try
+                {
+                    homePage.registerLink.Click();
+                    var regPage = new RegistrationPage(Driver);
+                    regPage.SkipRegistration();
+
+                    Assert.IsTrue(homePage.CheckForError(), "Message is not displayed");
+                }
+                catch (Exception e)
+                {
+                    Assert.Fail("Element not found.");
+                    throw e;
+                }
+            });
+        }
+
+        /**
             Тест 6: Заказ билета при пустых данных в форме брони
             Шаги: 
 	            1. выбрать маршрут "Sydney - Sandgate"

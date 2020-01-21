@@ -91,6 +91,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Page Models\RegistrationPage.cs" />
     <Compile Include="Page Models\TripPage.cs" />
     <Compile Include="Page Models\TripsPage.cs" />
     <Compile Include="Tests\CommonConditions.cs" />

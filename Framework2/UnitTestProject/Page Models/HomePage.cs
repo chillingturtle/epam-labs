@@ -25,6 +25,9 @@ namespace UnitTestProject.Page_Models
         [FindsBy(How = How.XPath, Using = "//*[@id='booking-content']/div[2]/tni-booking/div/div/form/div[2]/button")]
         public IWebElement submitFormButton;
 
+        [FindsBy(How = How.XPath, Using = "//*[@id='block-trainlinklogo']/div/p/a[2]")]
+        public IWebElement registerLink;
+
         public HomePage(IWebDriver driver) : base(driver)
         {
             PageFactory.InitElements(Driver, this);
