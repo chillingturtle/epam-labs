@@ -30,6 +30,6 @@ jobs:
               dotnet.exe publish -c Release -r win10-x64
       - run:
           name: "Tests"
-          command: ./Framework2/Test.bat
+          command: cd ./Framework2/; Test.bat
       - store_artifacts:
           path: .\bin\Release\netcoreapp2.1\win10-x64\publish\UnitTestProject.exe
