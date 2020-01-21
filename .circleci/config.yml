@@ -60,6 +60,9 @@ workflows:
       - schedule:
           cron: "0 0 * * *"
           filters:
+            branches:
+              only:
+                - master
     jobs:
       - prepare
       - build
